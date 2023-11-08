@@ -87,15 +87,7 @@ class HomepageVC: UIViewController, MovieViewModelOutput, UISearchResultsUpdatin
 		button.layer.cornerRadius = 5
 		return button
 	}()
-	private let activityIndicator: UIActivityIndicatorView = {
-		let indicator = UIActivityIndicatorView()
-		indicator.hidesWhenStopped = true
-		indicator.style = .large
-		indicator.translatesAutoresizingMaskIntoConstraints = false
-		indicator.startAnimating()
-		indicator.color = .white
-		return indicator
-	}()
+	private let activityIndicator = ActivityIndicator(frame: .zero, color: .white)
 	
 	private let movieViewModel: MovieViewModel
 	private let searchController = UISearchController(searchResultsController: nil)

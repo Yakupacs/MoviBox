@@ -55,6 +55,7 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 		label.attributedText = attributedString
 		return label
 	}()
+	private let activityIndicator = ActivityIndicator(frame: .zero, color: .black)
 	private let actorView = DetailView()
 	private let actorTitleLabel = DetailTitleLabel(frame: .zero, title: "Actors", size: 24, textColor: .white)
 	private let actorCollectionView = ActorCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -79,6 +80,7 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 		super.viewDidLoad()
 		waitingDataSkeleton()
 		setupViews()
+		activityIndicator.startAnimating()
 		detailViewModel.fetchMovie(imdbID: SelectedMovie.shared.movie!.imdbID)
 	}
 	
@@ -123,6 +125,7 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 			self.actors = movieActors
 			self.actorCollectionView.reloadData()
 			self.cameDataSkeleton()
+			self.activityIndicator.stopAnimating()
 		}
 	}
 	// Puanına göre yıldız sayısı hesaplar.
@@ -216,6 +219,7 @@ extension DetailVC{
 		scrollView.addSubview(contentView)
 		view.addSubview(scrollView)
 		view.addSubview(backButton)
+		view.addSubview(activityIndicator)
 		contentView.addSubview(moviePosterImage)
 		contentView.addSubview(titleView)
 		contentView.addSubview(actorView)
@@ -269,6 +273,11 @@ extension DetailVC{
 			moviePosterImage.leftAnchor.constraint(equalTo: contentView.leftAnchor),
 			moviePosterImage.rightAnchor.constraint(equalTo: contentView.rightAnchor),
 			moviePosterImage.heightAnchor.constraint(equalToConstant: width * 1.5),
+			
+			activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -70),
+			activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			activityIndicator.heightAnchor.constraint(equalToConstant: 50),
+			activityIndicator.widthAnchor.constraint(equalToConstant: 50),
 			
 			titleView.topAnchor.constraint(equalTo: moviePosterImage.bottomAnchor, constant: -30),
 			titleView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),

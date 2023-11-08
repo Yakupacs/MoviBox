@@ -38,6 +38,7 @@
 		DADE19AE2AF7042200981D4F /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADE19AD2AF7042200981D4F /* DetailViewModel.swift */; };
 		DADE19B02AF7047100981D4F /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADE19AF2AF7047100981D4F /* MovieDetail.swift */; };
 		DADE19B22AF705B500981D4F /* DetailViewModelOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADE19B12AF705B500981D4F /* DetailViewModelOutput.swift */; };
+		DAE2C28C2AFBBB1A008F1E00 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2C28B2AFBBB1A008F1E00 /* ActivityIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		DADE19AD2AF7042200981D4F /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		DADE19AF2AF7047100981D4F /* MovieDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
 		DADE19B12AF705B500981D4F /* DetailViewModelOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModelOutput.swift; sourceTree = "<group>"; };
+		DAE2C28B2AFBBB1A008F1E00 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 				DACC8F622AFAC8F5005F1B48 /* DetailView.swift */,
 				DA60AE972AFB926F00E3F192 /* ActorCollectionView.swift */,
 				DA60AE992AFB93DA00E3F192 /* MoviesTableView.swift */,
+				DAE2C28B2AFBBB1A008F1E00 /* ActivityIndicator.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				DADE196C2AF6E02900981D4F /* AppDelegate.swift in Sources */,
 				DA54E4D42AF983C200EC79B5 /* ActorsCVC.swift in Sources */,
 				DACC8F612AFA9526005F1B48 /* FilterRadioButton.swift in Sources */,
+				DAE2C28C2AFBBB1A008F1E00 /* ActivityIndicator.swift in Sources */,
 				DA8B137A2AF83A2900B69B39 /* SearchTVC.swift in Sources */,
 				DA8B13812AF853EF00B69B39 /* SelectedMovie.swift in Sources */,
 				DA60AE9A2AFB93DA00E3F192 /* MoviesTableView.swift in Sources */,
