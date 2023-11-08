@@ -119,6 +119,21 @@ final class MovieAppTests: XCTestCase {
 		XCTAssertEqual(detailOutput.movie?.actors, "")
 		XCTAssertEqual(detailOutput.movie?.director, "")
 	}
+	
+	// MARK: - Test 5 Star Count
+	func starCountTest() throws{
+		let star5: Float = 9.0
+		let star4: Float = 7.0
+		let star3: Float = 5.0
+		let star2: Float = 3.0
+		let star1: Float = 1.0
+		
+		XCTAssertEqual(star5.getStarCount(), 5)
+		XCTAssertEqual(star4.getStarCount(), 4)
+		XCTAssertEqual(star3.getStarCount(), 3)
+		XCTAssertEqual(star2.getStarCount(), 2)
+		XCTAssertEqual(star1.getStarCount(), 1)
+	}
 }
 
 class MockWebService: WebServiceProtocol{

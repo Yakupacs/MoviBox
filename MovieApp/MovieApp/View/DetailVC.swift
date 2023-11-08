@@ -128,17 +128,7 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 	// Puanına göre yıldız sayısı hesaplar.
 	func setupMovieStar(_ rating: String){
 		if let ratingFloat = Float(rating){
-			if ratingFloat >= 8.0 && ratingFloat <= 10.0 {
-				addStar(5)
-			}else if ratingFloat >= 6.0 && ratingFloat < 8.0{
-				addStar(4)
-			}else if ratingFloat >= 4.0 && ratingFloat < 6.0{
-				addStar(3)
-			}else if ratingFloat >= 2.0 && ratingFloat < 4.0{
-				addStar(2)
-			}else if ratingFloat >= 0.0 && ratingFloat < 2.0{
-				addStar(1)
-			}
+			addStar(ratingFloat.getStarCount())
 		}
 	}
 	// Gelen yıldız sayısına göre yıldızları dolu ve boş olarak stackview'e ekler.
