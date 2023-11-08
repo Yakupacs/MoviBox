@@ -7,6 +7,7 @@
 
 ## Technologies and Libraries
 - Protocol Oriented Programming
+- Pagination Scroll
 - URLSession
 - Programmatically UI
 - MVVM
