@@ -45,20 +45,7 @@ class HomepageVC: UIViewController, MovieViewModelOutput, UISearchResultsUpdatin
 		button.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 12)
 		return button
 	}()
-	private let filterView: UIView = {
-		let view = UIView()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor(named: "detailColor")
-		view.layer.cornerRadius = 6
-		view.layer.shadowColor = UIColor.black.cgColor
-		view.layer.shadowOpacity = 0.3
-		view.layer.shadowOffset = .zero
-		view.layer.shadowRadius = 10
-		view.layer.borderColor = UIColor.black.cgColor
-		view.layer.borderWidth = 2
-		view.isHidden = true
-		return view
-	}()
+	private let filterView = DetailView()
 	private let filterTitleLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -184,7 +171,7 @@ extension HomepageVC{
 			button.isSelected = false
 			button.setImage(UIImage(systemName: "circle"), for: .normal)
 		}
-		UIView.animate(withDuration: 1) {
+		UIView.animate(withDuration: 0.7) {
 			self.filterView.frame.origin.y = self.height + 200
 		} completion: { _ in
 			self.backNormalAppearance()
@@ -192,7 +179,7 @@ extension HomepageVC{
 	}
 	@objc func filterClosed(){
 		filterOpenBool = false
-		UIView.animate(withDuration: 1) {
+		UIView.animate(withDuration: 0.7) {
 			self.filterView.frame.origin.y = self.height + 200
 		} completion: { _ in
 			self.backNormalAppearance()
@@ -219,7 +206,7 @@ extension HomepageVC{
 		filterButtonBadge.isHidden = false
 		filterButtonBadge.setTitle("1", for: .normal)
 		filterOpenBool = false
-		UIView.animate(withDuration: 1) {
+		UIView.animate(withDuration: 0.7) {
 			self.filterView.frame.origin.y = self.height + 200
 		} completion: { _ in
 			self.backNormalAppearance()
@@ -232,6 +219,8 @@ extension HomepageVC{
 			searchController.searchBar.isEnabled = false
 			moviesTableView.isScrollEnabled = false
 			filterOpenBool = true
+			moviesTableView.alpha = 0.3
+			navigationController?.navigationBar.alpha = 0.3
 			self.filterView.isHidden = false
 			UIView.animate(withDuration: 1) {
 				self.filterView.frame.origin.y -= self.height
@@ -240,7 +229,7 @@ extension HomepageVC{
 			}
 		}else{
 			filterOpenBool = false
-			UIView.animate(withDuration: 1) {
+			UIView.animate(withDuration: 0.7) {
 				self.filterView.frame.origin.y = self.height + 200
 			} completion: { _ in
 				self.backNormalAppearance()
@@ -307,6 +296,9 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource{
 extension HomepageVC{
 	private func setupViews(){
 		view.backgroundColor = UIColor(named: "backgroundColor")
+		filterView.layer.borderColor = UIColor.black.cgColor
+		filterView.layer.borderWidth = 1.5
+		filterView.isHidden = true
 		navigationItem.leftBarButtonItem = UIBarButtonItem(customView: moviBoxImage)
 		navigationItem.rightBarButtonItem = UIBarButtonItem(customView: filterButton)
 		moviesTableView.dataSource = self
@@ -340,7 +332,6 @@ extension HomepageVC{
 		gameRadioButton.addTarget(self, action: #selector(radioClicked), for: .touchUpInside)
 		clearFilterButton.addTarget(self, action: #selector(clearFilter), for: .touchUpInside)
 	}
-	
 	private func setConstraints(){
 		NSLayoutConstraint.activate([
 			moviesTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -401,7 +392,6 @@ extension HomepageVC{
 			activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
 		])
 	}
-	
 	private func setupSearchController() {
 		searchController.searchBar.searchTextPositionAdjustment = .init(horizontal: 5, vertical: 0)
 		searchController.searchResultsUpdater = self
@@ -422,13 +412,14 @@ extension HomepageVC{
 		navigationItem.searchController = searchController
 		definesPresentationContext = true
 	}
-	
 	private func backNormalAppearance(){
 		self.filterView.isHidden = true
 		self.filterButton.isEnabled = true
 		self.moviesTableView.allowsSelection = true
 		self.searchController.searchBar.isEnabled = true
 		self.moviesTableView.isScrollEnabled = true
+		moviesTableView.alpha = 1
+		navigationController?.navigationBar.alpha = 1
 	}
 	func setButton(noSelectButtons: [UIButton], selectButton: UIButton){
 		for button in noSelectButtons{
