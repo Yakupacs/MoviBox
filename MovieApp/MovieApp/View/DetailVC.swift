@@ -9,11 +9,7 @@ import UIKit
 import SDWebImage
 
 class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
-	
-	private let scrollViewHeight : CGFloat = 1440
-	private let detailViewModel: DetailViewModel
-	private var actors = [String.SubSequence]()
-	
+
 	private let scrollView: UIScrollView = {
 		let scrollView = UIScrollView()
 		scrollView.showsVerticalScrollIndicator = false
@@ -61,19 +57,7 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 	}()
 	private let actorView = DetailView()
 	private let actorTitleLabel = DetailTitleLabel(frame: .zero, title: "Actors", size: 24, textColor: .white)
-	private let actorCollectionView: UICollectionView = {
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-		layout.minimumInteritemSpacing = 5
-		layout.minimumLineSpacing = 5
-		layout.itemSize = CGSize(width: 65, height: 75)
-		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		collectionView.translatesAutoresizingMaskIntoConstraints = false
-		collectionView.register(ActorsCVC.self, forCellWithReuseIdentifier: "actorCell")
-		collectionView.backgroundColor = .clear
-		return collectionView
-	}()
+	private let actorCollectionView = ActorCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 	private let movieDetailView = DetailView()
 	private let detailTitleLabel = DetailTitleLabel(frame: .zero, title: "Details", size: 24, textColor: .white)
 	private let movieDirectorLabel = MovieDetailLabel(frame: .zero, feature: "              ")
@@ -86,6 +70,10 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 	private let movieCountryLabel = MovieDetailLabel(frame: .zero, feature: "          ")
 	private let movieAwardsLabel = MovieDetailLabel(frame: .zero, feature: "                  ")
 	private let movieWritersLabel = MovieDetailLabel(frame: .zero, feature: "              ")
+	
+	private let scrollViewHeight : CGFloat = 1440
+	private let detailViewModel: DetailViewModel
+	private var actors = [String.SubSequence]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -103,7 +91,7 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+	// ID ile istek atıldığında bu fonksiyon çıktısı çalışır.
 	func updateView(getMovie: MovieDetail) {
 		DispatchQueue.main.async{
 			self.movieTitleLabel.text = getMovie.title
@@ -137,7 +125,7 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 			self.cameDataSkeleton()
 		}
 	}
-	
+	// Puanına göre yıldız sayısı hesaplar.
 	func setupMovieStar(_ rating: String){
 		if let ratingFloat = Float(rating){
 			if ratingFloat >= 8.0 && ratingFloat <= 10.0 {
@@ -153,7 +141,7 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 			}
 		}
 	}
-	
+	// Gelen yıldız sayısına göre yıldızları dolu ve boş olarak stackview'e ekler.
 	func addStar(_ count: Int){
 		// Star Fill
 		for _ in 0..<count {
@@ -170,7 +158,10 @@ class DetailVC: UIViewController, DetailViewModelOutput, UIScrollViewDelegate {
 			starsStackView.addArrangedSubview(star)
 		}
 	}
+}
 
+// MARK: - @objc functions
+extension DetailVC{
 	@objc func backFunc(){
 		self.dismiss(animated: true)
 	}
@@ -190,6 +181,37 @@ extension DetailVC: UICollectionViewDelegate, UICollectionViewDataSource{
 
 // MARK: - Setup Views
 extension DetailVC{
+	func waitingDataSkeleton(){
+		movieDescriptionLabel.text = "                                                                    "
+		moviePosterImage.backgroundColor = .systemGray4
+		movieDescriptionLabel.backgroundColor = .systemGray4
+		movieRateLabel.backgroundColor = .systemGray4
+		movieDirectorLabel.backgroundColor = .systemGray4
+		movieYearLabel.backgroundColor = .systemGray4
+		movieRuntimeLabel.backgroundColor = .systemGray4
+		movieLanguageLabel.backgroundColor = .systemGray4
+		movieBoxOfficeLabel.backgroundColor = .systemGray4
+		movieReleasedLabel.backgroundColor = .systemGray4
+		movieGenreLabel.backgroundColor = .systemGray4
+		movieAwardsLabel.backgroundColor = .systemGray4
+		movieCountryLabel.backgroundColor = .systemGray4
+		movieWritersLabel.backgroundColor = .systemGray4
+	}
+	func cameDataSkeleton(){
+		moviePosterImage.backgroundColor = .clear
+		movieRateLabel.backgroundColor = .clear
+		movieDescriptionLabel.backgroundColor = .clear
+		movieDirectorLabel.backgroundColor = .clear
+		movieYearLabel.backgroundColor = .clear
+		movieRuntimeLabel.backgroundColor = .clear
+		movieLanguageLabel.backgroundColor = .clear
+		movieBoxOfficeLabel.backgroundColor = .clear
+		movieReleasedLabel.backgroundColor = .clear
+		movieGenreLabel.backgroundColor = .clear
+		movieAwardsLabel.backgroundColor = .clear
+		movieCountryLabel.backgroundColor = .clear
+		movieWritersLabel.backgroundColor = .clear
+	}
 	func setupViews(){
 		view.backgroundColor = UIColor(named: "backgroundColor")
 		addViews()
@@ -343,36 +365,5 @@ extension DetailVC{
 			movieWritersLabel.leftAnchor.constraint(equalTo: movieDetailView.leftAnchor, constant: 16),
 			movieWritersLabel.rightAnchor.constraint(equalTo: movieDetailView.rightAnchor, constant: -16),
 		])
-	}
-	func waitingDataSkeleton(){
-		movieDescriptionLabel.text = "                                                                    "
-		moviePosterImage.backgroundColor = .systemGray4
-		movieDescriptionLabel.backgroundColor = .systemGray4
-		movieRateLabel.backgroundColor = .systemGray4
-		movieDirectorLabel.backgroundColor = .systemGray4
-		movieYearLabel.backgroundColor = .systemGray4
-		movieRuntimeLabel.backgroundColor = .systemGray4
-		movieLanguageLabel.backgroundColor = .systemGray4
-		movieBoxOfficeLabel.backgroundColor = .systemGray4
-		movieReleasedLabel.backgroundColor = .systemGray4
-		movieGenreLabel.backgroundColor = .systemGray4
-		movieAwardsLabel.backgroundColor = .systemGray4
-		movieCountryLabel.backgroundColor = .systemGray4
-		movieWritersLabel.backgroundColor = .systemGray4
-	}
-	func cameDataSkeleton(){
-		moviePosterImage.backgroundColor = .clear
-		movieRateLabel.backgroundColor = .clear
-		movieDescriptionLabel.backgroundColor = .clear
-		movieDirectorLabel.backgroundColor = .clear
-		movieYearLabel.backgroundColor = .clear
-		movieRuntimeLabel.backgroundColor = .clear
-		movieLanguageLabel.backgroundColor = .clear
-		movieBoxOfficeLabel.backgroundColor = .clear
-		movieReleasedLabel.backgroundColor = .clear
-		movieGenreLabel.backgroundColor = .clear
-		movieAwardsLabel.backgroundColor = .clear
-		movieCountryLabel.backgroundColor = .clear
-		movieWritersLabel.backgroundColor = .clear
 	}
 }

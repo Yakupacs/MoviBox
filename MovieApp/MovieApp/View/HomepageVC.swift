@@ -10,26 +10,7 @@ import SDWebImage
 
 class HomepageVC: UIViewController, MovieViewModelOutput, UISearchResultsUpdating{
 	
-	private let movieViewModel: MovieViewModel
-	private let searchController = UISearchController(searchResultsController: nil)
-	private var movies: [Movie]? = nil
-	private var currentPage = 1
-	private var totalPage = 0
-	private var filterOpenBool = false
-	private var height: CGFloat = 0
-	private var selectedFilter: [FilterType] = []
-	private var searchedMovieText = ""
-	
-	private let tableView: UITableView = {
-		let tableView = UITableView(frame: .zero)
-		tableView.translatesAutoresizingMaskIntoConstraints = false
-		tableView.register(SearchTVC.self, forCellReuseIdentifier: "movieCell")
-		tableView.isScrollEnabled = true
-		tableView.showsVerticalScrollIndicator = false
-		tableView.backgroundColor = .clear
-		tableView.separatorStyle = .none
-		return tableView
-	}()
+	private let moviesTableView = MoviesTableView(frame: .zero, style: .grouped)
 	private let moviBoxImage: UIImageView = {
 		let image = UIImage(named: "moviBox")
 		let imageView = UIImageView(image: image)
@@ -129,6 +110,16 @@ class HomepageVC: UIViewController, MovieViewModelOutput, UISearchResultsUpdatin
 		return indicator
 	}()
 	
+	private let movieViewModel: MovieViewModel
+	private let searchController = UISearchController(searchResultsController: nil)
+	private var movies: [Movie]? = nil
+	private var currentPage = 1
+	private var totalPage = 0
+	private var filterOpenBool = false
+	private var height: CGFloat = 0
+	private var selectedFilter: [FilterType] = []
+	private var searchedMovieText = ""
+	
 	init(movieViewModel: MovieViewModel) {
 		self.movieViewModel = movieViewModel
 		super.init(nibName: nil, bundle: nil)
@@ -147,28 +138,29 @@ class HomepageVC: UIViewController, MovieViewModelOutput, UISearchResultsUpdatin
 		movieViewModel.searchMovie(searchText: "avatar", page: nil, filterType: nil)
 		height = view.frame.size.height
 	}
-	// Search Output
+	// Arama yapıldığında bu delegate çıktı verir.
 	func updateView(searchMovie: SearchMovie) {
 		DispatchQueue.main.async{
 			self.movies = searchMovie.search
 			self.totalPage = Int(searchMovie.totalResults)!
 			if searchMovie.search.count != 0{
 				self.notMovieFoundImage.isHidden = true
-				self.tableView.reloadData()
+				self.moviesTableView.reloadData()
 			}else{
 				self.notMovieFoundImage.isHidden = false
-				self.tableView.reloadData()
+				self.moviesTableView.reloadData()
 			}
 			self.activityIndicator.stopAnimating()
 		}
 	}
-	// Pagination Output
+	// Tableview kaydırıldığında bu delegate çıktı verir.
 	func getMovieFromPagination(searchMovie: SearchMovie) {
 		DispatchQueue.main.async{
 			self.movies = self.movies! + searchMovie.search
-			self.tableView.reloadData()
+			self.moviesTableView.reloadData()
 		}
 	}
+	// Searchbar'a her text girildiğinde bu fonksiyon çalışır.
 	func updateSearchResults(for searchController: UISearchController) {
 		if searchController.searchBar.text != "" ,searchController.searchBar.text!.count > 2 {
 			activityIndicator.startAnimating()
@@ -181,29 +173,23 @@ class HomepageVC: UIViewController, MovieViewModelOutput, UISearchResultsUpdatin
 			}
 		}
 	}
-	@objc func filterClicked(){
-		filterButton.isEnabled = false
-		if filterOpenBool == false{
-			tableView.allowsSelection = false
-			searchController.searchBar.isEnabled = false
-			tableView.isScrollEnabled = false
-			filterOpenBool = true
-			self.filterView.isHidden = false
-			UIView.animate(withDuration: 1) {
-				self.filterView.frame.origin.y -= self.height
-			} completion: { _ in
-				self.filterButton.isEnabled = true
-			}
-		}else{
-			filterOpenBool = false
-			UIView.animate(withDuration: 1) {
-				self.filterView.frame.origin.y = self.height + 200
-			} completion: { _ in
-				self.backNormalAppearance()
-			}
+}
+
+// MARK: - @objc functions
+extension HomepageVC{
+	@objc func clearFilter(){
+		selectedFilter = []
+		filterButtonBadge.isHidden = true
+		for button in [movieRadioButton, serieRadioButton, episodeRadioButton, gameRadioButton]{
+			button.isSelected = false
+			button.setImage(UIImage(systemName: "circle"), for: .normal)
+		}
+		UIView.animate(withDuration: 1) {
+			self.filterView.frame.origin.y = self.height + 200
+		} completion: { _ in
+			self.backNormalAppearance()
 		}
 	}
-	
 	@objc func filterClosed(){
 		filterOpenBool = false
 		UIView.animate(withDuration: 1) {
@@ -239,33 +225,27 @@ class HomepageVC: UIViewController, MovieViewModelOutput, UISearchResultsUpdatin
 			self.backNormalAppearance()
 		}
 	}
-	func setButton(noSelectButtons: [UIButton], selectButton: UIButton){
-		for button in noSelectButtons{
-			button.isSelected = false
-			button.setImage(UIImage(systemName: "circle"), for: .normal)
+	@objc func filterClicked(){
+		filterButton.isEnabled = false
+		if filterOpenBool == false{
+			moviesTableView.allowsSelection = false
+			searchController.searchBar.isEnabled = false
+			moviesTableView.isScrollEnabled = false
+			filterOpenBool = true
+			self.filterView.isHidden = false
+			UIView.animate(withDuration: 1) {
+				self.filterView.frame.origin.y -= self.height
+			} completion: { _ in
+				self.filterButton.isEnabled = true
+			}
+		}else{
+			filterOpenBool = false
+			UIView.animate(withDuration: 1) {
+				self.filterView.frame.origin.y = self.height + 200
+			} completion: { _ in
+				self.backNormalAppearance()
+			}
 		}
-		selectButton.isSelected = true
-		selectButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
-	}
-	@objc func clearFilter(){
-		selectedFilter = []
-		filterButtonBadge.isHidden = true
-		for button in [movieRadioButton, serieRadioButton, episodeRadioButton, gameRadioButton]{
-			button.isSelected = false
-			button.setImage(UIImage(systemName: "circle"), for: .normal)
-		}
-		UIView.animate(withDuration: 1) {
-			self.filterView.frame.origin.y = self.height + 200
-		} completion: { _ in
-			self.backNormalAppearance()
-		}
-	}
-	func backNormalAppearance(){
-		self.filterView.isHidden = true
-		self.filterButton.isEnabled = true
-		self.tableView.allowsSelection = true
-		self.searchController.searchBar.isEnabled = true
-		self.tableView.isScrollEnabled = true
 	}
 }
 
@@ -325,22 +305,22 @@ extension HomepageVC: UITableViewDelegate, UITableViewDataSource{
 
 // MARK: - Setup Views
 extension HomepageVC{
-	func setupViews(){
+	private func setupViews(){
 		view.backgroundColor = UIColor(named: "backgroundColor")
 		navigationItem.leftBarButtonItem = UIBarButtonItem(customView: moviBoxImage)
 		navigationItem.rightBarButtonItem = UIBarButtonItem(customView: filterButton)
-		tableView.dataSource = self
-		tableView.delegate = self
+		moviesTableView.dataSource = self
+		moviesTableView.delegate = self
 		setAddViews()
 		setAddTargets()
 		setConstraints()
 	}
-	func setAddViews(){
-		view.addSubview(tableView)
+	private func setAddViews(){
+		view.addSubview(moviesTableView)
 		view.addSubview(notMovieFoundImage)
 		view.addSubview(filterButton)
 		view.addSubview(filterView)
-		tableView.addSubview(activityIndicator)
+		moviesTableView.addSubview(activityIndicator)
 		filterButton.addSubview(filterButtonBadge)
 		filterView.addSubview(filterTitleLabel)
 		filterView.addSubview(filterCloseButton)
@@ -351,7 +331,7 @@ extension HomepageVC{
 		filterView.addSubview(gameRadioButton)
 		filterView.addSubview(clearFilterButton)
 	}
-	func setAddTargets(){
+	private func setAddTargets(){
 		filterButton.addTarget(self, action: #selector(filterClicked), for: .touchUpInside)
 		filterCloseButton.addTarget(self, action: #selector(filterClosed), for: .touchUpInside)
 		movieRadioButton.addTarget(self, action: #selector(radioClicked), for: .touchUpInside)
@@ -361,15 +341,15 @@ extension HomepageVC{
 		clearFilterButton.addTarget(self, action: #selector(clearFilter), for: .touchUpInside)
 	}
 	
-	func setConstraints(){
+	private func setConstraints(){
 		NSLayoutConstraint.activate([
-			tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-			tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-			tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-			tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -8),
+			moviesTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			moviesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+			moviesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+			moviesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -8),
 			
-			notMovieFoundImage.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-			notMovieFoundImage.centerYAnchor.constraint(equalTo: tableView.centerYAnchor),
+			notMovieFoundImage.centerXAnchor.constraint(equalTo: moviesTableView.centerXAnchor),
+			notMovieFoundImage.centerYAnchor.constraint(equalTo: moviesTableView.centerYAnchor),
 			notMovieFoundImage.heightAnchor.constraint(equalToConstant: 150),
 			notMovieFoundImage.widthAnchor.constraint(equalToConstant: 150),
 			
@@ -441,5 +421,21 @@ extension HomepageVC{
 		}
 		navigationItem.searchController = searchController
 		definesPresentationContext = true
+	}
+	
+	private func backNormalAppearance(){
+		self.filterView.isHidden = true
+		self.filterButton.isEnabled = true
+		self.moviesTableView.allowsSelection = true
+		self.searchController.searchBar.isEnabled = true
+		self.moviesTableView.isScrollEnabled = true
+	}
+	func setButton(noSelectButtons: [UIButton], selectButton: UIButton){
+		for button in noSelectButtons{
+			button.isSelected = false
+			button.setImage(UIImage(systemName: "circle"), for: .normal)
+		}
+		selectButton.isSelected = true
+		selectButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
 	}
 }

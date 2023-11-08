@@ -105,7 +105,7 @@ final class MovieAppTests: XCTestCase {
 		XCTAssertEqual(detailOutput.movie?.director, "Christopher Nolan")
 		XCTAssertEqual(detailOutput.movie?.writer, "Frank Miller")
 	}
-	// MARK: - Test 4 Movie Detail Fail
+	// MARK: - Test 4 Movie Detail Failure
 	func testFetchMovieDetail_whenAPIFailure_showsMovieDetail() throws{
 		let serverError = ErrorType.serverError
 		
@@ -120,7 +120,6 @@ final class MovieAppTests: XCTestCase {
 		XCTAssertEqual(detailOutput.movie?.director, "")
 	}
 }
-
 
 class MockWebService: WebServiceProtocol{
 	var fetchSearchMovieMockResult: Result<SearchMovie, ErrorType>?

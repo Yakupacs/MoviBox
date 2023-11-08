@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DA54E4D42AF983C200EC79B5 /* ActorsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA54E4D32AF983C200EC79B5 /* ActorsCVC.swift */; };
+		DA60AE982AFB926F00E3F192 /* ActorCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60AE972AFB926F00E3F192 /* ActorCollectionView.swift */; };
+		DA60AE9A2AFB93DA00E3F192 /* MoviesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60AE992AFB93DA00E3F192 /* MoviesTableView.swift */; };
 		DA8B137A2AF83A2900B69B39 /* SearchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B13792AF83A2900B69B39 /* SearchTVC.swift */; };
 		DA8B137D2AF83D4000B69B39 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = DA8B137C2AF83D4000B69B39 /* SDWebImage */; };
 		DA8B137F2AF851A600B69B39 /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B137E2AF851A600B69B39 /* DetailVC.swift */; };
@@ -56,6 +58,8 @@
 
 /* Begin PBXFileReference section */
 		DA54E4D32AF983C200EC79B5 /* ActorsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorsCVC.swift; sourceTree = "<group>"; };
+		DA60AE972AFB926F00E3F192 /* ActorCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorCollectionView.swift; sourceTree = "<group>"; };
+		DA60AE992AFB93DA00E3F192 /* MoviesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesTableView.swift; sourceTree = "<group>"; };
 		DA8B13792AF83A2900B69B39 /* SearchTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTVC.swift; sourceTree = "<group>"; };
 		DA8B137E2AF851A600B69B39 /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		DA8B13802AF853EF00B69B39 /* SelectedMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedMovie.swift; sourceTree = "<group>"; };
@@ -148,6 +152,8 @@
 				DACC8F642AFACA3D005F1B48 /* DetailTitleLabel.swift */,
 				DACC8F602AFA9526005F1B48 /* FilterRadioButton.swift */,
 				DACC8F622AFAC8F5005F1B48 /* DetailView.swift */,
+				DA60AE972AFB926F00E3F192 /* ActorCollectionView.swift */,
+				DA60AE992AFB93DA00E3F192 /* MoviesTableView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -405,8 +411,10 @@
 				DACC8F612AFA9526005F1B48 /* FilterRadioButton.swift in Sources */,
 				DA8B137A2AF83A2900B69B39 /* SearchTVC.swift in Sources */,
 				DA8B13812AF853EF00B69B39 /* SelectedMovie.swift in Sources */,
+				DA60AE9A2AFB93DA00E3F192 /* MoviesTableView.swift in Sources */,
 				DACC8F672AFAD3EB005F1B48 /* ErrorType.swift in Sources */,
 				DADE19B22AF705B500981D4F /* DetailViewModelOutput.swift in Sources */,
+				DA60AE982AFB926F00E3F192 /* ActorCollectionView.swift in Sources */,
 				DADE19A12AF6F1FA00981D4F /* Movie.swift in Sources */,
 				DACC8F5F2AFA8E65005F1B48 /* MovieDetailLabel.swift in Sources */,
 				DADE19AE2AF7042200981D4F /* DetailViewModel.swift in Sources */,
