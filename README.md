@@ -15,6 +15,12 @@
 - Unit Tests
 - SDWebImage
 
+## App Features
+- Search for Movies, TV Shows, Games, and Episodes
+- View content details
+- Search for movies, TV shows, games, and episodes based on their type.
+
+
 ## Screenshots
 
 | Homepage Screen | Filter Screen |
