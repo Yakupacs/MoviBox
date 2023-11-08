@@ -3,7 +3,7 @@
 </h1>
 
 ## Description
-<p>This application is the final project of the Pazarama iOS Bootcamp, developed as a individual effort, and it involves listing and detailing Movies using data obtained from "https://www.omdbapi.com"</p>
+<p>This application is the final project of the Pazarama iOS Bootcamp, developed as a individual effort, and it involves listing and detailing Movies using data obtained from Omdbapi.
 
 ## Technologies and Libraries
 - Protocol Oriented Programming
